@@ -20,10 +20,16 @@ func main() {
 
 		command, err := reader.ReadString('\n')
 
-		command = strings.TrimSpace(command)
+		commands := strings.Split(strings.TrimSpace(command), " ")
 
-		if command == "exit" {
+		if commands[0] == "exit" {
 			break
+		}
+
+		if commands[0] == "echo" {
+			out := strings.Join(commands[1:], " ")
+			fmt.Println(out)
+			continue
 		}
 
 		if err != nil {
@@ -31,6 +37,6 @@ func main() {
 			os.Exit(1)
 		}
 
-		fmt.Println(command + ": command not found")
+		fmt.Println(commands[0] + ": command not found")
 	}
 }
