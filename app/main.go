@@ -17,32 +17,28 @@ func main() {
 	builtinCommandsList := []string{"exit", "type", "echo"}
 	reader := bufio.NewReader(os.Stdin)
 
+REPL:
 	for {
 		fmt.Print("$ ")
 
 		command, err := reader.ReadString('\n')
 
-		commands := strings.Split(strings.TrimSpace(command), " ")
+		tokens := strings.Split(strings.TrimSpace(command), " ")
 
-		command = commands[0]
-
-		if command == "exit" {
-			break
-		}
-
-		if command == "echo" {
-			out := strings.Join(commands[1:], " ")
+		switch tokens[0] {
+		case "exit":
+			break REPL
+		case "echo":
+			out := strings.Join(tokens[1:], " ")
 			fmt.Println(out)
-			continue
-		}
-
-		if command == "type" {
-			if slices.Contains(builtinCommandsList, commands[1]) {
-				fmt.Println(commands[1] + " is a shell builtin")
+		case "type":
+			if slices.Contains(builtinCommandsList, tokens[1]) {
+				fmt.Println(tokens[1] + " is a shell builtin")
 			} else {
-				fmt.Println(commands[1] + ": not found")
+				fmt.Println(tokens[1] + ": not found")
 			}
-			continue
+		default:
+			fmt.Println(tokens[0] + ": command not found")
 		}
 
 		if err != nil {
@@ -50,6 +46,5 @@ func main() {
 			os.Exit(1)
 		}
 
-		fmt.Println(command + ": command not found")
 	}
 }
