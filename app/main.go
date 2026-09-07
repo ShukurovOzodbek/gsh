@@ -48,7 +48,15 @@ REPL:
 				fmt.Println(pwd)
 			}
 		case "cd":
-			if err := os.Chdir(tokens[1]); err != nil {
+			if tokens[1] == "~" {
+				home, err := os.UserHomeDir()
+
+				if err == nil {
+					os.Chdir(home)
+					continue
+				}
+				fmt.Fprintln(os.Stderr, err)
+			} else if err := os.Chdir(tokens[1]); err != nil {
 				fmt.Printf("cd: %s: No such file or directory\n", tokens[1])
 			}
 		default:
