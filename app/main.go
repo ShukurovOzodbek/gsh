@@ -15,7 +15,7 @@ var _ = fmt.Print
 func main() {
 	// TODO: Uncomment the code below to pass the first stage
 
-	builtinCommandsList := []string{"exit", "type", "echo"}
+	builtinCommandsList := []string{"exit", "type", "echo", "pwd"}
 	reader := bufio.NewReader(os.Stdin)
 
 REPL:
@@ -39,6 +39,13 @@ REPL:
 				fmt.Println(tokens[1] + " is " + path)
 			} else {
 				fmt.Println(tokens[1] + ": not found")
+			}
+		case "pwd":
+			pwd, err := os.Getwd()
+			if err != nil {
+				fmt.Fprintln(os.Stderr, err)
+			} else {
+				fmt.Println(pwd)
 			}
 		default:
 			if _, err := exec.LookPath(tokens[0]); err == nil {
