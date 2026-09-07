@@ -41,7 +41,7 @@ REPL:
 				fmt.Println(tokens[1] + ": not found")
 			}
 		default:
-			if _, err := exec.LookPath(tokens[1]); err == nil {
+			if _, err := exec.LookPath(tokens[0]); err == nil {
 				cmd := exec.Command(tokens[0], tokens[1:]...)
 				cmd.Stdout = os.Stdout
 				cmd.Stdin = os.Stdin
