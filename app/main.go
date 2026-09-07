@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"slices"
 	"strings"
 )
@@ -34,6 +35,8 @@ REPL:
 		case "type":
 			if slices.Contains(builtinCommandsList, tokens[1]) {
 				fmt.Println(tokens[1] + " is a shell builtin")
+			} else if path, err := exec.LookPath(tokens[1]); err == nil {
+				fmt.Println(tokens[1] + " is " + path)
 			} else {
 				fmt.Println(tokens[1] + ": not found")
 			}
