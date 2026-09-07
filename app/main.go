@@ -47,6 +47,10 @@ REPL:
 			} else {
 				fmt.Println(pwd)
 			}
+		case "cd":
+			if err := os.Chdir(tokens[1]); err != nil {
+				fmt.Printf("cd: %s: No such file or directory\n", tokens[1])
+			}
 		default:
 			if _, err := exec.LookPath(tokens[0]); err == nil {
 				cmd := exec.Command(tokens[0], tokens[1:]...)
