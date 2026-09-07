@@ -45,7 +45,11 @@ REPL:
 				cmd := exec.Command(tokens[0], tokens[1:]...)
 				cmd.Stdout = os.Stdout
 				cmd.Stdin = os.Stdin
-				cmd.Run()
+				cmd.Stderr = os.Stderr
+
+				if err := cmd.Run(); err != nil {
+					fmt.Fprintln(os.Stderr, err)
+				}
 			} else {
 				fmt.Println(tokens[0] + ": command not found")
 			}
